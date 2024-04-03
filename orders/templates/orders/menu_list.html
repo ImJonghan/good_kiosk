@@ -1,0 +1,122 @@
+{% comment %} <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>메뉴 목록</title>
+</head>
+<body>
+    <h1>메뉴 목록</h1>
+    <div>
+        <h2>카테고리</h2>
+        <ul>
+            <li><a href="{% url 'orders:menu_list' %}">전체</a></li>
+            {% for category in categories %}
+                <li {% if category.id == current_category_id %}class="active"{% endif %}>
+                    <a href="{% url 'orders:menu_by_category' category.id %}">{{ category.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h2>메뉴</h2>
+        <ul>
+            {% for menu in menus %}
+                <p><li>{{ menu.name }} - {{ menu.price }}원</li>
+                {{menu.description}} </p>
+            {% empty %}
+                <li>메뉴가 없습니다.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
+
+<div class="min-h-screen bg-white dark:bg-zinc-800">
+    <div class="py-5 text-center">
+      <h1 class="text-4xl font-bold text-zinc-900 dark:text-white">Cafe Menu</h1>
+    </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white dark:bg-zinc-700 shadow-lg rounded-lg p-4">
+          <img src="https://placehold.co/300x200" alt="Coffee" class="rounded-t-lg w-full mb-4" />
+          <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Classic Coffee</h2>
+          <p class="text-zinc-600 dark:text-zinc-300">
+            A rich, full-bodied espresso with bittersweet milk sauce and steamed milk.
+          </p>
+          <div class="mt-4">
+            <span class="text-xl font-semibold text-zinc-900 dark:text-white">$3.99</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-zinc-700 shadow-lg rounded-lg p-4">
+          <img src="https://placehold.co/300x200" alt="Tea" class="rounded-t-lg w-full mb-4" />
+          <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Herbal Tea</h2>
+          <p class="text-zinc-600 dark:text-zinc-300">
+            A soothing blend of mint, lemongrass, and other herbs.
+          </p>
+          <div class="mt-4">
+            <span class="text-xl font-semibold text-zinc-900 dark:text-white">$2.99</span>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-zinc-700 shadow-lg rounded-lg p-4">
+          <img src="https://placehold.co/300x200" alt="Pastry" class="rounded-t-lg w-full mb-4" />
+          <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Croissant</h2>
+          <p class="text-zinc-600 dark:text-zinc-300">Buttery, flaky pastry with a golden crust.</p>
+          <div class="mt-4">
+            <span class="text-xl font-semibold text-zinc-900 dark:text-white">$1.99</span>
+          </div>
+        </div>
+        <!-- Add more items here -->
+      </div>
+    </div>
+  </div>
+   {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>카페 메뉴</title>
+    {% comment %} <link rel="stylesheet" href="여기에 스타일시트 경로를 넣으세요"> {% endcomment %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-white dark:bg-zinc-800">
+    <div class="py-5 text-center">
+        <h1 class="text-4xl font-bold text-zinc-900 dark:text-white">카페 메뉴</h1>
+    </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">카테고리</h2>
+            <ul class="flex flex-wrap">
+                <li class="mr-4">
+                    <a href="{% url 'orders:menu_list' %}" class="text-zinc-900 dark:text-white">전체</a>
+                </li>
+                {% for category in categories %}
+                    <li class="mr-4 {% if category.id == current_category_id %}active{% endif %}">
+                        <a href="{% url 'orders:menu_by_category' category.id %}" class="text-zinc-900 dark:text-white">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for menu in menus %}
+                <div class="bg-white dark:bg-zinc-700 shadow-lg rounded-lg p-4">
+                    {% comment %} <img src="{{ menu.image_url }}" alt="{{ menu.name }}" class="rounded-t-lg w-full mb-4" /> {% endcomment %}
+                    <img src="https://placehold.co/300x200" alt="{{ menu.name }}" class="rounded-t-lg w-full mb-4" />
+                    <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">{{ menu.name }}</h2>
+                    <p class="text-zinc-600 dark:text-zinc-300">
+                        {{ menu.description }}
+                    </p>
+                    <div class="mt-4">
+                        <span class="text-xl font-semibold text-zinc-900 dark:text-white">{{ menu.price|add:"0" }}원</span>
+                        {% comment %} <span class="text-xl font-semibold text-zinc-900 dark:text-white">{{ menu.price }}원</span> {% endcomment %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>메뉴가 없습니다.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
